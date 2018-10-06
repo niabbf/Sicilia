@@ -42,11 +42,11 @@ export default {
     ]),
     alertLoginResult: function (status) {
       if (status === 'success') {
-        this.dialogText = 'Success'
+        this.$router.push({ path: '/userinfo' })
       } else {
         this.dialogText = 'Fail'
+        this.showDialog = true
       }
-      this.showDialog = true
     }
   }
 }

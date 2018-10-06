@@ -11,6 +11,8 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import { carbon, createTheme } from 'muse-ui-carbon-theme/src'
 
+import '@/permission'
+
 Vue.config.productionTip = false
 Vue.use(MuseUI)
 // use MuseUI carbon theme

@@ -14,7 +14,8 @@ export default {
       })
       .then(function (status) {
         if (status === 'success') {
-          cbSucceed()
+          const mockCookie = 'this_is_a_cookie'
+          cbSucceed(mockCookie)
         } else {
           console.log(status)
           cbFail()
