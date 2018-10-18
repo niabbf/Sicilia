@@ -14,7 +14,7 @@ Task = db['Tasks']
 def get_own_tasks():
     user = request.headers.get('user')
     ret = []
-    for task in Task.find({'username': user}):
+    for task in Task.find({'user': user}):
         task.pop('_id')
         ret.append(task)
     return json.dumps(ret)
