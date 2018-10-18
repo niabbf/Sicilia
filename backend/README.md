@@ -30,9 +30,9 @@ data: {
     password: xxxx
 }
 returnFormat:
-    returnCode: 200, returnData: token    // when success
-    returnCode: 401, returnData: 'fail'   // when failed
-    ...                                   // others
+    returnCode: 200, returnData: token                          // when success
+    returnCode: 401, returnData: 'username or password wrong'   // when failed
+    ...                                                         // others
 ```
 ```bash
 route: '/register' 
@@ -43,9 +43,24 @@ data: {
     password: xxxx
 }
 returnFormat:
-    returnCode: 200, returnData: 'success'  // when success
-    returnCode: 401, returnData: 'fail'     // when failed
-    ...                                     // others
+    returnCode: 200, returnData: 'success'        // when success
+    returnCode: 401, returnData: 'user exist'     // when failed
+    ...                                           // others
+```
+```bash
+route: '/update'
+HTTP METHOD: POST
+params: null
+data: {
+    name: xxxx,
+    password: xxxx,
+    new_password: xxxx,
+    ...   // other info
+}
+returnFormat:
+    returnCode: 200, returnData: 'success'            // when success
+    returnCode: 401, returnData: 'password wrong'     // when failed
+    ...                                               // others
 ```
 
 ### test
