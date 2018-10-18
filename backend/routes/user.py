@@ -4,7 +4,6 @@ from pymongo import MongoClient
 import uuid
 from common.redis_connector import get_redis
 from common.md5 import generateMD5
-import json
 
 user = Blueprint('user', __name__)
 client = MongoClient('mongodb://localhost:27017/')
