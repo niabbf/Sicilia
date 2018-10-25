@@ -5,19 +5,23 @@ export default {
     var formData = new FormData()
     formData.append('name', mail)
     formData.append('password', pwd)
-    fetch(SERVER_ADR, {
+    fetch(SERVER_ADR + '/login', {
       body: formData,
       method: 'POST'
     })
       .then(function (response) {
-        return response.text()
-      })
-      .then(function (status) {
-        if (status === 'success') {
-          const mockCookie = 'this_is_a_cookie'
-          cbSucceed(mockCookie)
+        if (response.status === 200) {
+          return {status: true, msg: response.text()}
         } else {
-          console.log(status)
+          return {status: false, msg: response.text()}
+        }
+      })
+      .then(function ({status, msg}) {
+        console.log(status)
+        if (status === true) {
+          const Cookie = msg
+          cbSucceed(Cookie)
+        } else {
           cbFail()
         }
       })
