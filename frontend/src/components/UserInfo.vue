@@ -3,6 +3,7 @@
     <mu-container style="margin-top-40">
 <div class="header" style="position: fixed; z-index: 10; left: 0; right: 0; top: 0;">
     <mu-appbar style="width: 100%;" color="primary">
+
   <mu-button icon slot="left" @click="open = !open">
     <mu-icon value="menu"></mu-icon>
   </mu-button >
@@ -11,27 +12,7 @@
            <mu-icon value="search"></mu-icon>
       </mu-button>
 </mu-appbar>
-    <mu-drawer :open.sync="open" :docked="true" :right="false">
-      <mu-list>
-          <mu-list-item button>
-        <mu-list-item-content>
-          <mu-list-item-title>{{name}}</mu-list-item-title>
-        </mu-list-item-content>
-      </mu-list-item>
 
-      <mu-list-item button>
-        <mu-list-item-content>
-          <mu-list-item-title>{{password}}</mu-list-item-title>
-        </mu-list-item-content>
-      </mu-list-item>
-
-      <mu-list-item button>
-        <mu-list-item-content>
-          <mu-list-item-title>{{cookie}}</mu-list-item-title>
-        </mu-list-item-content>
-      </mu-list-item>
-    </mu-list>
-    </mu-drawer>
 </div>
 <div class="footer" style="position: fixed; z-index: 10; left: 0; right: 0; bottom: 0;">
   <mu-bottom-nav :value.sync="shift" shift>
