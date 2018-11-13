@@ -2,7 +2,7 @@
 
 ## frontend test by jest
 
-###test for Login.vue
+### test for Login.vue
 ```bash
 import Vue from 'vue'
 import Login from '@/components/Login'
@@ -17,7 +17,7 @@ describe('Login.vue', () => {
 })
 ```
 
-###test for UserInfo.vue
+### test for UserInfo.vue
 ```bash
 import Vue from 'vue'
 import UserInfo from '@/components/UserInfo'
@@ -32,5 +32,5 @@ describe('UserInfo.vue', () => {
 })
 ```
 
-###references:
+### references:
 https://github.com/alexjoverm/vue-testing-series
