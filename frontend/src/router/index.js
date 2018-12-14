@@ -16,7 +16,7 @@ export default new Router({
     {
       path: '/logup',
       name: 'LogUp',
-      compenent: LogUp
+      component: LogUp
     },
     {
       path: '/',

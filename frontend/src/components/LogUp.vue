@@ -45,7 +45,10 @@ export default {
   methods: {
     ...mapActions('user', [
       'logUp'
-    ])
+    ]),
+    toLogin: function () {
+      this.$router.push({ path: '/login' })
+    }
   }
 }
 </script>
