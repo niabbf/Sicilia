@@ -22,8 +22,11 @@ export default {
           const Cookie = msg
           cbSucceed(Cookie)
         } else {
-          cbFail()
+          cbFail('Access Failed')
         }
+      })
+      .catch(function () {
+        cbFail('Can\'t access server')
       })
   }
 }
