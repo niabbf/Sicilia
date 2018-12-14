@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 100%; width: 100%">
-    <div class="xy-center" style="width: 80%">
+  <div style="height: 100%; width: 100%;">
+    <div class="xy-center" style="width: 80%; max-width: 540px">
     <logo></logo>
     <mu-container class="margin-top-40">
       <mu-text-field v-model="username" label="Username" full-width></mu-text-field><br/>

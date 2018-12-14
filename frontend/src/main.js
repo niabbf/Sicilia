@@ -17,7 +17,7 @@ import '@/permission'
 Vue.config.productionTip = false
 Vue.use(MuseUI)
 // use MuseUI carbon theme
-MuseUI.theme.add('carbon', carbon).addCreateTheme(createTheme).use('carbon')
+ MuseUI.theme.add('carbon', carbon).addCreateTheme(createTheme).use('carbon')
 
 // load components
 Vue.component('logo', Logo)
