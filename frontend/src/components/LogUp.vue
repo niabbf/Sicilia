@@ -6,18 +6,18 @@
       <mu-text-field v-model="username" label="Username" full-width></mu-text-field><br/>
       <mu-text-field v-model="password" label="Password" type="password" full-width></mu-text-field><br/>
       <mu-flex justify-content="center" align-items="center" class="margin-top-40">
-        <mu-button full-width large color="primary" v-on:click="loginUser({'name': username, 'pwd': password, 'callback': alertLoginResult})">
-          Login
-          <mu-icon right value="keyboard_arrow_right"></mu-icon>
-        </mu-button>
-      </mu-flex>
-      <mu-flex justify-content="center" align-items="center" class="margin-top-40">
-        <mu-button full-width large color="primary" v-on:click="toLogUp()">
+        <mu-button full-width large color="primary" v-on:click="logUp()">
           Log Up
           <mu-icon right value="keyboard_arrow_right"></mu-icon>
         </mu-button>
       </mu-flex>
-      <mu-dialog title="Fail" width="360" :open.sync="showDialog">
+      <mu-flex justify-content="center" align-items="center" class="margin-top-40">
+        <mu-button full-width large color="primary" v-on:click="toLogin()">
+          <mu-icon left value="keyboard_arrow_left"></mu-icon>
+          Log in
+        </mu-button>
+      </mu-flex>
+      <mu-dialog title="Dialog" width="360" :open.sync="showDialog">
         {{dialogText}}
         <mu-button slot="actions" flat color="primary" @click="showDialog = false">Close</mu-button>
       </mu-dialog>
@@ -30,7 +30,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'Login',
+  name: 'LogUp',
   data () {
     return {
       username: '',
@@ -44,19 +44,8 @@ export default {
   }),
   methods: {
     ...mapActions('user', [
-      'loginUser'
-    ]),
-    toLogUp: function () {
-      this.$router.push({ path: '/logup' })
-    },
-    alertLoginResult: function (status) {
-      if (status === 'success') {
-        this.$router.push({ path: '/userinfo' })
-      } else {
-        this.dialogText = status
-        this.showDialog = true
-      }
-    }
+      'logUp'
+    ])
   }
 }
 </script>

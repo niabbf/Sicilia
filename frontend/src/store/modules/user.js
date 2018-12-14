@@ -21,13 +21,15 @@ const actions = {
         setToken(cookie)
         payload.callback('success')
       },
-      () => {
+      (str) => {
         console.log('Login failed.')
-        payload.callback('fail')
+        payload.callback(str)
       },
       payload.name,
       payload.pwd
     )
+  },
+  logUp ({commit}, payload) {
   }
 }
 

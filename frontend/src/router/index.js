@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
 import UserInfo from '@/components/UserInfo'
+import LogUp from '@/components/LogUp'
 
 Vue.use(Router)
 
@@ -11,6 +12,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/logup',
+      name: 'LogUp',
+      compenent: LogUp
     },
     {
       path: '/',
