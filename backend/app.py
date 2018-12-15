@@ -12,7 +12,14 @@ app.register_blueprint(alive_blueprint)
 app.register_blueprint(test_blueprint)
 app.register_blueprint(tasks_blueprint)
 app.register_blueprint(files_blueprint)
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, resources=r'/*')
+
+@app.after_request
+def af_request(resp):
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
+    resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    return resp
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=80)
