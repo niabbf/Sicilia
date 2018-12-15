@@ -3,6 +3,7 @@
 ## Requirements
 ```bash
 flask
+flask_cors
 redis
 pymongo
 uuid
