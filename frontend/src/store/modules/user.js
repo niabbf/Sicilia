@@ -14,7 +14,6 @@ const getters = {
 // actions
 const actions = {
   loginUser ({commit}, payload) {
-    console.log('hello')
     apiUser.login(
       cookie => {
         commit('setName', payload.name)

@@ -1,14 +1,19 @@
 const SERVER_ADR = 'http://39.108.208.217'
 
 export default {
-  login (cbSucceed, cbFail, mail, pwd) {
-    var formData = new FormData()
-    formData.append('name', mail)
+  login (cbSucceed, cbFail, name, pwd) {
+    let formData = new FormData()
+    formData.append('name', name)
     formData.append('password', pwd)
-    fetch(SERVER_ADR + '/login', {
-      body: formData,
-      method: 'POST'
-    })
+    let opts = {
+      method: "POST",
+      body:formData,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(SERVER_ADR + '/login', opts)
       .then(function (response) {
         if (response.status === 200) {
           return {status: true, msg: response.text()}
@@ -25,7 +30,7 @@ export default {
           cbFail('No such user')
         }
       })
-      .catch(function () {
+      .catch(() => {
         cbFail('Can\'t access server')
       })
   }

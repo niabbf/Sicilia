@@ -62,9 +62,9 @@ export default {
       'loginUser'
     ]),
     submit () {
-      loginUser({ name: this.form.username, pwd: this.form.password, callback: alertLoginResult })
+      this.loginUser({ name: this.form.username, pwd: this.form.password, callback: this.alertLoginResult })
     },
-    alertLoginResult: function (status) {
+    alertLoginResult (status) {
       if (status === 'success') {
         this.$router.push({ path: '/userinfo' })
       } else {
