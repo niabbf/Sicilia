@@ -18,7 +18,7 @@
         </mu-form-item>
         <mu-form-item style="width:100%;">
           <div style="position:absolute;left:50%;transform:translateX(-50%);">
-            <mu-button color="primary" @click="submit">Log Up</mu-button>
+            <mu-button color="primary" @click="submit">Sign Up</mu-button>
             <mu-button @click="clear">Reset</mu-button>
           </div>
         </mu-form-item>
@@ -35,7 +35,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'LogUp',
+  name: 'SignUp',
   data () {
     return {
       usernameRules: [
@@ -43,7 +43,7 @@ export default {
       ],
       passwordRules: [
         { validate: (val) => !!val, message: 'Password is a must' },
-        { validate: (val) => val.length >= 6, message: 'Length of password must not be less than 6' }
+        { validate: (val) => val.length >= 6, message: 'Length of password must be greater than 5' }
       ],
       repeatPasswordRules: [
         { validate: (val) => val === this.validateForm.password, message: 'Different from password' }
@@ -72,11 +72,11 @@ export default {
     ]),
     submit () {
       this.$refs.form.validate().then((result) => {
-        console.log('form valied: ', result)
+        console.log('form valid: ', result)
       })
     },
     clear () {
-      this.$refs.form.clear();
+      this.$refs.form.clear()
       this.validateForm = {
         username: '',
         password: '',

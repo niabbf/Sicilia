@@ -22,7 +22,7 @@ export default {
           const Cookie = msg
           cbSucceed(Cookie)
         } else {
-          cbFail('Access Failed')
+          cbFail('No such user')
         }
       })
       .catch(function () {
