@@ -26,6 +26,10 @@
       <mu-button flat color="primary" @click="toLogin">
         <mu-icon value="arrow_back"></mu-icon>Back to Login
       </mu-button>
+      <mu-dialog title="Fail" width="360" :open.sync="showDialog">
+        {{dialogText}}
+        <mu-button slot="actions" flag color="primary" @click="showDialog=false">Close</mu-button>
+      </mu-dialog>
     </mu-container>
     </div>
   </div>
@@ -68,12 +72,24 @@ export default {
   }),
   methods: {
     ...mapActions('user', [
-      'logUp'
+      'signUp'
     ]),
     submit () {
       this.$refs.form.validate().then((result) => {
-        console.log('form valid: ', result)
+        if (result === true) {
+          this.signUp({name: this.validateForm.username, pwd: this.validateForm.password, callback: this.alertSignUpResult})
+        }
       })
+    },
+    alertSignUpResult (str) {
+      console.log(str)
+      if (str === 'success') {
+        this.$router.push({ path: '/' })
+      } else {
+        this.clear()
+        this.dialogText = str
+        this.showDialog = true
+      }
     },
     clear () {
       this.$refs.form.clear()

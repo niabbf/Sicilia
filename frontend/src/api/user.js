@@ -2,16 +2,12 @@ const SERVER_ADR = 'http://39.108.208.217'
 
 export default {
   login (cbSucceed, cbFail, name, pwd) {
-    let formData = new FormData()
+    var formData = new FormData()
     formData.append('name', name)
     formData.append('password', pwd)
     let opts = {
-      method: "POST",
-      body:formData,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+      method: 'POST',
+      body: formData
     }
     fetch(SERVER_ADR + '/login', opts)
       .then(function (response) {
@@ -22,7 +18,6 @@ export default {
         }
       })
       .then(function ({status, msg}) {
-        console.log(status)
         if (status === true) {
           const Cookie = msg
           cbSucceed(Cookie)
@@ -32,6 +27,26 @@ export default {
       })
       .catch(() => {
         cbFail('Can\'t access server')
+      })
+  },
+  signUp (name, pwd, callBack) {
+    var formData = new FormData()
+    formData.append('name', name)
+    formData.append('password', pwd)
+    let opts = {
+      method: 'POST',
+      body: formData
+    }
+    fetch(SERVER_ADR + '/register', opts)
+      .then((response) => {
+        if (response.status === 200) {
+          callBack('success')
+        } else {
+          callBack('Username exist')
+        }
+      })
+      .catch(() => {
+        callBack('Can\'t access server')
       })
   }
 }

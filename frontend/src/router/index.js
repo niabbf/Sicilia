@@ -20,7 +20,7 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'UserInfo',
+      name: 'Default',
       component: UserInfo
     },
     {

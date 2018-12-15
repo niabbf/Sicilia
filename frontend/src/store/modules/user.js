@@ -29,7 +29,8 @@ const actions = {
       payload.pwd
     )
   },
-  logUp ({commit}, payload) {
+  signUp ({commit}, payload) {
+    apiUser.signUp(payload.name, payload.pwd, payload.callback)
   }
 }
 

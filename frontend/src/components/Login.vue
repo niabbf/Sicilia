@@ -12,7 +12,7 @@
         </mu-form-item>
         <mu-form-item>
           <div style="position:absolute;left:50%;transform:translateX(-50%)">
-            <mu-button color="primary" @click="submit()/*loginUser({name: form.username, pwd: form.password, callback: alertLoginResult})*/">
+            <mu-button color="primary" @click="submit()">
             Login
             </mu-button>
           </div>
@@ -62,7 +62,11 @@ export default {
       'loginUser'
     ]),
     submit () {
-      this.loginUser({ name: this.form.username, pwd: this.form.password, callback: this.alertLoginResult })
+      this.$refs.form.validate().then((result) => {
+        if (result === true) {
+          this.loginUser({ name: this.form.username, pwd: this.form.password, callback: this.alertLoginResult })
+        }
+      })
     },
     alertLoginResult (status) {
       if (status === 'success') {
