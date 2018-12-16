@@ -10,11 +10,14 @@ export default {
       body: formData
     }
     fetch(SERVER_ADR + '/login', opts)
-      .then(function (response) {
-        if (response.status === 200) {
-          return {status: true, msg: response.text()}
+      .then(response => response.text())
+      .then(text => {
+        if (text === 'password wrong') {
+          return {status: false, msg: 'Password is wrong'}
+        } else if (text === 'user do not exist') {
+          return {status: false, msg: 'No such user'}
         } else {
-          return {status: false, msg: response.text()}
+          return {status: true, msg: text}
         }
       })
       .then(function ({status, msg}) {
@@ -22,7 +25,7 @@ export default {
           const Cookie = msg
           cbSucceed(Cookie)
         } else {
-          cbFail('No such user')
+          cbFail(msg)
         }
       })
       .catch(() => {
