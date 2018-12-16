@@ -22,8 +22,10 @@ def user_login():
     password = post_data.get('password')
     md5_password = generateMD5(password)
     ret = User.find_one({'username': name})
-    if ret is None or ret.get('password') != md5_password:
-        return "username or password wrong", 401
+    if ret is None:
+        return "user do not exist", 401
+    elif ret.get('password') != md5_password:
+        return "password wrong", 401
     else:
         redis = get_redis()
         token = str(uuid.uuid4())
