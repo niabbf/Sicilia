@@ -7,12 +7,12 @@
         <mu-form-item label="Username" prop="username" :rules="usernameRules">
           <mu-text-field v-model="form.username" prop="username"></mu-text-field>
         </mu-form-item>
-        <mu-form-item label="Password" prop="password" :rules="passwordRules">
+        <mu-form-item label="Password" prop="password" :rules="passwordRules" @keyup.enter.native="submit()">
           <mu-text-field v-model="form.password" prop="password" :type="visibility_pwd?'text':'password'" :action-icon="visibility_pwd?'visibility_off':'visibility'" :action-click="() => visibility_pwd=!visibility_pwd"></mu-text-field>
         </mu-form-item>
         <mu-form-item>
           <div style="position:absolute;left:50%;transform:translateX(-50%)">
-            <mu-button color="primary" @click="submit()">
+            <mu-button color="primary" @click="submit">
             Login
             </mu-button>
           </div>
@@ -25,7 +25,7 @@
       </mu-button>
       <mu-dialog title="Fail" width="360" :open.sync="showDialog">
         {{dialogText}}
-        <mu-button slot="actions" flat color="primary" @click="showDialog = false">Close</mu-button>
+        <mu-button slot="actions" flat color="primary" @click="showDialog=false">Close</mu-button>
       </mu-dialog>
     </mu-container>
     </div>
