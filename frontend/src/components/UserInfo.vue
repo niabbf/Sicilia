@@ -1,39 +1,72 @@
 <template>
   <div style="height: 100%; width: 100%; position: 100%; top: 0;">
     <mu-container style="margin-top-40">
-<div class="header" style="position: fixed; z-index: 10; left: 0; right: 0; top: 0;">
-    <mu-appbar style="width: 100%;" color="primary">
+      <div class="header" style="position: fixed; z-index: 10; left: 0; right: 0; top: 0;">
+        <mu-appbar style="width: 100%;" color="primary">
+          <mu-button icon slot="left" @click="open = !open">
+            <mu-icon value="menu"></mu-icon>
+          </mu-button >
+          Sicilia
+          <mu-button flat slot="right">
+            <mu-icon value="search"></mu-icon>
+          </mu-button>
+        </mu-appbar>
+      </div>
+      <mu-drawer :open.sync="open" :docked="false">
+        <mu-appbar color="primary" style="height:50px">
+          <mu-button icon slot="left" @click="open=false">
+            <mu-icon value="keyboard_arrow_left"></mu-icon>
+          </mu-button>
+          Menu
+          <mu-button icon slot="right">
+            <mu-icon value="menu"></mu-icon>
+          </mu-button>
+        </mu-appbar>
+        <mu-list>
+          <mu-sub-header avatar style="margin-top:5px">
+            <mu-avatar>
+              <img src="../assets/head.jpg">
+            </mu-avatar>
+          </mu-sub-header>
+          <mu-list-item button>
+            <mu-list-item-action>
+              <mu-icon value="settings"></mu-icon>
+            </mu-list-item-action>
+            <mu-list-item-title>
+              Settings
+            </mu-list-item-title>
+          </mu-list-item>
+          <mu-divider></mu-divider>
+          <mu-list-item button @click="logOut({cookie: cookie, callback: toLogin})">
+            <mu-list-item-title>
+              Log Out
+            </mu-list-item-title>
+            <mu-list-item-action>
+              <mu-icon value="hot_tub"></mu-icon>
+            </mu-list-item-action>
+          </mu-list-item>
+        </mu-list>
+      </mu-drawer>
 
-  <mu-button icon slot="left" @click="open = !open">
-    <mu-icon value="menu"></mu-icon>
-  </mu-button >
-  Sicilia
-    <mu-button flat slot="right">
-           <mu-icon value="search"></mu-icon>
-      </mu-button>
-</mu-appbar>
-
-</div>
-
-<div class="body" style="margin-top: 70px; padding-left: 20px; padding-right: 20px">
+      <div class="body" style="margin-top: 70px; padding-left: 20px; padding-right: 20px">
         <h1>{{head}}</h1>
         <taskCard v-for="task in tasks" :key="task.name" v-bind="task"></taskCard>
-</div>
+      </div>
 
-<div class="footer" style="position: fixed; z-index: 10; left: 0; right: 0; bottom: 0;">
-  <mu-bottom-nav :value.sync="shift" shift>
-    <mu-bottom-nav-item title="Like"  icon="favorite"></mu-bottom-nav-item>
-    <mu-bottom-nav-item title="Discovery"  icon="schedule"></mu-bottom-nav-item>
-    <mu-bottom-nav-item title="Notification"  icon="bookmark"></mu-bottom-nav-item>
-    <mu-bottom-nav-item title="Setting"  icon="settings"></mu-bottom-nav-item>
-  </mu-bottom-nav>
+      <div class="footer" style="position: fixed; z-index: 10; left: 0; right: 0; bottom: 0;">
+        <mu-bottom-nav :value.sync="shift" shift>
+          <mu-bottom-nav-item title="Like" icon="favorite"></mu-bottom-nav-item>
+          <mu-bottom-nav-item title="Discovery" icon="schedule"></mu-bottom-nav-item>
+          <mu-bottom-nav-item title="Notification" icon="bookmark"></mu-bottom-nav-item>
+          <mu-bottom-nav-item title="Setting" icon="settings"></mu-bottom-nav-item>
+        </mu-bottom-nav>
+      </div>
+    </mu-container>
   </div>
-</mu-container>
-    </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { getToken } from '@/auth'
 export default {
   name: 'UserInfo',
@@ -66,6 +99,14 @@ export default {
     ...mapState('user', [
       'name', 'password'
     ])
+  },
+  methods: {
+    ...mapActions('user', [
+      'logOut'
+    ]),
+    toLogin () {
+      this.$router.push({ path: '/' })
+    }
   }
 }
 </script>

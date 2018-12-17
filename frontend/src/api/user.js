@@ -51,5 +51,8 @@ export default {
       .catch(() => {
         callBack('Can\'t access server')
       })
+  },
+  logUp (cookie) {
+
   }
 }

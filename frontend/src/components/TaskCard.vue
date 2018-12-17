@@ -1,14 +1,14 @@
 <template>
   <mu-card style="width: 100%; max-width: 375px; margin: 0 auto; margin-top: 20px">
     <mu-flex class="flex-wrapper" justify-content="start">
-      <mu-card-header v-bind:title="name" v-bind:sub-title="adr">
+      <mu-card-header :title="name" :sub-title="adr">
         <mu-avatar slot="avatar">
           <img src="../assets/head.jpg">
         </mu-avatar>
       </mu-card-header>
     </mu-flex>
     <mu-flex class="flex-wrapper" justify-content="start" style="margin-left: 15px">
-      <mu-chip v-for="tag in tags" :key="tag.text" v-bind:color="tag.color" class="tag">{{tag.text}}</mu-chip>
+      <mu-chip v-for="tag in tags" :key="tag.text" :color="tag.color" class="tag">{{tag.text}}</mu-chip>
     </mu-flex>
     <div class="text ellipsis" style="margin-left: 10px; margin-right: 10px">
       <mu-card-text class="text-concat">{{info}}</mu-card-text>

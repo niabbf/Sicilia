@@ -1,5 +1,5 @@
 import apiUser from '../../api/user'
-import { setToken } from '@/auth'
+import { setToken, removeToken } from '@/auth'
 // initial state
 const state = {
   name: null,
@@ -31,6 +31,11 @@ const actions = {
   },
   signUp ({commit}, payload) {
     apiUser.signUp(payload.name, payload.pwd, payload.callback)
+  },
+  logOut ({commit}, payload) {
+    apiUser.logUp(payload.cookie)
+    removeToken()
+    payload.callback()
   }
 }
 
