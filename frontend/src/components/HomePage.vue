@@ -6,7 +6,7 @@
           <mu-button icon slot="left" @click="open = !open">
             <mu-icon value="menu"></mu-icon>
           </mu-button >
-          Sicilia
+          <span style="font-weight:bold;font-size:30px">Sicilia</span>
           <mu-button flat slot="right">
             <mu-icon value="search"></mu-icon>
           </mu-button>
@@ -48,15 +48,20 @@
         </mu-list>
       </mu-drawer>
 
-      <div class="body" style="margin-top: 70px; padding-left: 20px; padding-right: 20px">
-        <h1>{{head}}</h1>
+      <div class="center" v-if="shift === 'task'">
+        <h1>TASKS</h1>
         <taskCard v-for="task in tasks" :key="task.name" v-bind="task"></taskCard>
+      </div>
+
+      <div class="center" v-if="shift === 'user'">
+        <h1>User Information</h1>
+        <!-- <userInfo></userInfo> -->
       </div>
 
       <div class="footer" style="position: fixed; z-index: 10; left: 0; right: 0; bottom: 0;">
         <mu-bottom-nav :value.sync="shift" shift>
-          <mu-bottom-nav-item title="Like" icon="favorite"></mu-bottom-nav-item>
-          <mu-bottom-nav-item title="Discovery" icon="schedule"></mu-bottom-nav-item>
+          <mu-bottom-nav-item value="user" title="User" icon="favorite"></mu-bottom-nav-item>
+          <mu-bottom-nav-item value="task" title="Task" icon="storage"></mu-bottom-nav-item>
           <mu-bottom-nav-item title="Notification" icon="bookmark"></mu-bottom-nav-item>
           <mu-bottom-nav-item title="Setting" icon="settings"></mu-bottom-nav-item>
         </mu-bottom-nav>
@@ -69,13 +74,12 @@
 import { mapState, mapActions } from 'vuex'
 import { getToken } from '@/auth'
 export default {
-  name: 'UserInfo',
+  name: 'HomePage',
   data () {
     return {
       cookie: getToken(),
-      shift: 'movies',
+      shift: 'task',
       open: false,
-      head: 'The tasks are as bellow:',
       tasks: [
         {
           name: 'Chen JY',
@@ -120,6 +124,11 @@ export default {
 }
 .margin-top-40{
   margin-top: 40px;
+}
+.center{
+  margin-top: 70px;
+  padding-left: 20px;
+  padding-right: 20px
 }
 .text {
   position: relative;
