@@ -7,7 +7,7 @@
       <mu-tab>Done</mu-tab>
     </mu-tabs>
     <div class="text" v-if="active === 0">
-      
+      <taskCard v-for="task in tasks" :key="task.name" v-bind="task"></taskCard>
     </div>
     <div class="text" v-if="active === 1">
       <p>“我的心从来没有这么坚定过，所以我会为了补偿而死，也可以为了补偿而死……一辈子，急辈子都无所谓，我绝不后退！”</p>
@@ -25,22 +25,30 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'UserInfo',
   data () {
     return {
-      active: 0
+      active: 0,
+      tasks: null
     }
+  },
+  mounted: function () {
+    this.tasks = this.getTasks
+  },
+  computed: {
+    ...mapGetters('user', [
+      'getTasks'
+    ])
   }
 }
 </script>
 
 <style scoped>
 .text {
-  padding: 16px;
+  padding: 5px;
   background: #fff;
-  p {
-    margin: 8px 0;
-  }
 }
 </style>
