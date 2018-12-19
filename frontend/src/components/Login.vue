@@ -70,7 +70,7 @@ export default {
     },
     alertLoginResult (status) {
       if (status === 'success') {
-        this.$router.push({ path: '/userinfo' })
+        this.$router.push({ path: '/homepage' })
       } else {
         this.dialogText = status
         this.showDialog = true

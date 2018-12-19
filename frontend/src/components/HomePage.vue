@@ -1,14 +1,14 @@
 <template>
   <div style="height: 100%; width: 100%; position: 100%; top: 0;">
-    <mu-container style="margin-top-40">
+    <mu-container>
       <div class="header" style="position: fixed; z-index: 10; left: 0; right: 0; top: 0;">
         <mu-appbar style="width: 100%;" color="primary">
           <mu-button icon slot="left" @click="open = !open">
             <mu-icon value="menu"></mu-icon>
           </mu-button >
           Sicilia
-          <mu-button flat slot="right">
-            <mu-icon value="search"></mu-icon>
+          <mu-button flat slot="right" @click="toShowTools">
+            <mu-icon value="more_vert"></mu-icon>
           </mu-button>
         </mu-appbar>
       </div>
@@ -48,8 +48,18 @@
         </mu-list>
       </mu-drawer>
 
-      <div class="body" style="margin-top: 70px; padding-left: 20px; padding-right: 20px">
-        <h1>{{head}}</h1>
+      <div style="height: 60px">
+        <mu-button fab small color="info" id="search-btn" class="tool-button">
+          <mu-icon value="search"></mu-icon>
+        </mu-button>
+        <mu-button fab small color="success" id="filter-city-btn" class="tool-button">
+          <mu-icon value="location_on"></mu-icon>
+        </mu-button>
+        <mu-button fab small color="pink" id="filter-time-btn" class="tool-button">
+          <mu-icon value="timer"></mu-icon>
+        </mu-button>
+      </div>
+      <div class="body" style="padding-left: 5px; padding-right: 5px">
         <taskCard v-for="task in tasks" :key="task.name" v-bind="task"></taskCard>
       </div>
 
@@ -68,18 +78,22 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { getToken } from '@/auth'
+import anime from 'animejs'
+
 export default {
-  name: 'UserInfo',
+  name: 'HomePage',
   data () {
     return {
       cookie: getToken(),
       shift: 'movies',
       open: false,
-      head: 'The tasks are as bellow:',
+      showTools: false,
       tasks: [
         {
           name: 'Chen JY',
           adr: 'Fudan University',
+          start: '2018-12-01',
+          end: '2019-01-01',
           tags: [
             {
               text: 'find dog',
@@ -90,7 +104,26 @@ export default {
               color: 'info'
             }
           ],
+          subtitle: '急！家中爱犬走失',
           info: '我于今日晚上六点十分左右在广州市天河区五山路，华晟大厦对面的天桥底与我家泰迪发发走丢了，它是公狗，没有穿衣服，毛发比较长，颜色均匀，走路的时候喜欢歪着走，体型不大，大概六斤左右，脖子上挂些绳圈但没有系绳子，希望有捡到或者看到过的朋友联系我一下，有酬谢！丢了爱犬很着急，多谢大家了，qq同微信号:309094783'
+        },
+        {
+          name: 'WZY',
+          adr: 'Fudan University',
+          start: '2018-12-01',
+          end: '2018-12-20',
+          tags: [
+            {
+              text: 'find one girlfriend',
+              color: 'success'
+            },
+            {
+              text: 'Shanghai',
+              color: 'info'
+            }
+          ],
+          subtitle: '寻找真爱',
+          info: 'lnkncLNlkNzlkn'
         }
       ]
     }
@@ -106,6 +139,18 @@ export default {
     ]),
     toLogin () {
       this.$router.push({ path: '/' })
+    },
+    toShowTools () {
+      this.showTools = !this.showTools
+      if (this.showTools) {
+        anime({targets: '#search-btn', translateY: 200})
+        anime({targets: '#filter-city-btn', translateY: 140})
+        anime({targets: '#filter-time-btn', translateY: 80})
+      } else {
+        anime({targets: '#search-btn', translateY: -200})
+        anime({targets: '#filter-city-btn', translateY: -140})
+        anime({targets: '#filter-time-btn', translateY: -80})
+      }
     }
   }
 }
@@ -117,9 +162,6 @@ export default {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-.margin-top-40{
-  margin-top: 40px;
 }
 .text {
   position: relative;
@@ -135,9 +177,15 @@ export default {
   line-height: 1.2em;
   text-align:justify;
 }
-.tag{
+.tag {
   height: 20px;
   margin-left: 5px;
   margin-right: 5px;
+}
+.tool-button {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  z-index: 5;
 }
 </style>
