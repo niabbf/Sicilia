@@ -1,5 +1,5 @@
 <template>
-  <mu-card style="width: 100%; max-width: 375px; margin: 0 auto; margin-top: 20px">
+  <mu-card v-bind:class="cardClass" @click="changeView">
     <mu-flex class="flex-wrapper" justify-content="start">
       <mu-card-header :title="name" :sub-title="adr">
         <mu-avatar slot="avatar">
@@ -15,24 +15,27 @@
       <mu-flex class="flex-demo-50" justify-content="center">To: {{dueTime}}</mu-flex>
     </mu-flex>
     <div class="text ellipsis" style="margin-left: 10px; margin-right: 10px">
-      <mu-card-text class="text-concat">{{info}}</mu-card-text>
+      <mu-card-text class="subtitle">{{subtitle}}</mu-card-text>
+      <mu-expand-transition>
+        <div v-show="showDetails">
+          <mu-card-text class="detail">{{info}}</mu-card-text>
+          <mu-card-actions class="card-action">
+            <mu-flex class="flex-wrapper" align-items="center">
+              <mu-flex justify-content="center" fill>
+                <mu-card-text class="time-start">{{start}}</mu-card-text>
+                <mu-card-text class="time-connector">~</mu-card-text>
+                <mu-card-text class="time-end">{{end}}</mu-card-text>
+              </mu-flex>
+              <mu-flex justify-content="center" fill>
+                <mu-button color="info" small round style="font-family: Microsoft Yahei" @click="takeTask" v-bind:disabled="disabled">
+                  {{buttonText}}
+                </mu-button>
+              </mu-flex>
+            </mu-flex>
+          </mu-card-actions>
+        </div>
+      </mu-expand-transition>
     </div>
-
-    <mu-card-actions>
-      <mu-flex class="flex-wrapper" align-items="center">
-        <mu-flex class="flex-demo-50" justify-content="center" fill>
-        </mu-flex>
-        <mu-flex class="flex-demo-50" justify-content="center" fill>
-          <mu-button icon color="red">
-            <mu-icon value="thumb_up"></mu-icon>
-          </mu-button>
-          <span>+0</span>
-          <mu-button icon color="blue">
-            <mu-icon value="thumb_down"></mu-icon>
-          </mu-button>
-        </mu-flex>
-      </mu-flex>
-    </mu-card-actions>
   </mu-card>
 </template>
 
@@ -42,17 +45,62 @@ export default {
   props: {
     name: String,
     adr: String,
+    start: String,
+    end: String,
     tags: Array,
-    info: String,
-    issuedTime: String,
-    dueTime: String,
+    subtitle: String,
+    info: String
+  },
+  data () {
+    return {
+      showDetails: false,
+      buttonText: '接受任务',
+      disabled: false,
+      cardClass: 'card'
+    }
+  },
+  methods: {
+    changeView: function () {
+      this.showDetails = !this.showDetails
+    },
+    takeTask: function (event) {
+      event.stopPropagation()
+      this.buttonText = '已接受'
+      this.disabled = true
+    }
   }
 }
 </script>
 
 <style scoped>
+.card {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.time-start {
+  font-family: Microsoft Yahei;
+  font-size: 13px;
+  color: black;
+  padding-right: 3px;
+}
+.time-connector {
+  font-family: Microsoft Yahei;
+  font-size: 13px;
+  color: black;
+  padding-left: 0;
+  padding-right: 0;
+}
+.time-end {
+  font-family: Microsoft Yahei;
+  font-size: 13px;
+  color: red;
+  padding-left: 3px;
+}
 .text {
   position: relative;
+  font-family: Microsoft Yahei;
   font-size: 14px;
   color: black;
 }
@@ -65,25 +113,21 @@ export default {
   line-height: 1.2em;
   text-align:justify;
 }
+.subtitle {
+  font-size: 20px;
+  text-align:justify;
+}
+.detail {
+  text-align:justify;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .tag{
   height: 20px;
   margin-left: 5px;
   margin-right: 5px;
 }
-.flex-wrapper {
-  width: 100%;
-  margin-top: 8px;
-}
-.flex-wrapper:first-child {
-  margin-top: 0;
-  margin-left: 0;
-}
-.flex-demo-50 {
-  width: 50%;
-  height: 32px;
-  /*background-color: #e0e0e0;*/
-  text-align: center;
-  line-height: 32px;
-  margin-left: 8px;
+.card-action {
+  padding-bottom: 15px;
 }
 </style>
