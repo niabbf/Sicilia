@@ -55,12 +55,12 @@
 
       <div class="center" v-if="shift === 'user'">
         <h1>User Information</h1>
-        <!-- <userInfo></userInfo> -->
+        <userInfo></userInfo>
       </div>
 
       <div class="footer" style="position: fixed; z-index: 10; left: 0; right: 0; bottom: 0;">
         <mu-bottom-nav :value.sync="shift" shift>
-          <mu-bottom-nav-item value="user" title="User" icon="favorite"></mu-bottom-nav-item>
+          <mu-bottom-nav-item value="user" title="User" icon="account_box"></mu-bottom-nav-item>
           <mu-bottom-nav-item value="task" title="Task" icon="storage"></mu-bottom-nav-item>
           <mu-bottom-nav-item title="Notification" icon="bookmark"></mu-bottom-nav-item>
           <mu-bottom-nav-item title="Setting" icon="settings"></mu-bottom-nav-item>
@@ -94,6 +94,9 @@ export default {
               color: 'info'
             }
           ],
+          status: 0,
+          issuedTime: '2018-5-20',
+          dueTime: '2018-12-31',
           info: '我于今日晚上六点十分左右在广州市天河区五山路，华晟大厦对面的天桥底与我家泰迪发发走丢了，它是公狗，没有穿衣服，毛发比较长，颜色均匀，走路的时候喜欢歪着走，体型不大，大概六斤左右，脖子上挂些绳圈但没有系绳子，希望有捡到或者看到过的朋友联系我一下，有酬谢！丢了爱犬很着急，多谢大家了，qq同微信号:309094783'
         }
       ]

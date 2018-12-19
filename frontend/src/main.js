@@ -7,6 +7,7 @@ import store from './store'
 
 import Logo from '@/components/Logo'
 import TaskCard from '@/components/TaskCard'
+import UserInfo from '@/components/UserInfo'
 
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
@@ -22,6 +23,7 @@ MuseUI.theme.add('carbon', carbon).addCreateTheme(createTheme).use('carbon')
 // load components
 Vue.component('logo', Logo)
 Vue.component('taskCard', TaskCard)
+Vue.component('userInfo', UserInfo)
 
 /* eslint-disable no-new */
 new Vue({
