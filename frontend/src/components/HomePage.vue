@@ -6,15 +6,9 @@
           <mu-button icon slot="left" @click="open = !open">
             <mu-icon value="menu"></mu-icon>
           </mu-button >
-<<<<<<< HEAD:frontend/src/components/HomePage.vue
           Sicilia
           <mu-button flat slot="right" @click="toShowTools">
             <mu-icon value="more_vert"></mu-icon>
-=======
-          <span style="font-weight:bold;font-size:30px">Sicilia</span>
-          <mu-button flat slot="right">
-            <mu-icon value="search"></mu-icon>
->>>>>>> e2682c040eae061446633d1f5da783ce4d43caba:frontend/src/components/HomePage.vue
           </mu-button>
         </mu-appbar>
       </div>
@@ -54,7 +48,6 @@
         </mu-list>
       </mu-drawer>
 
-<<<<<<< HEAD:frontend/src/components/HomePage.vue
       <div style="height: 60px">
         <mu-button fab small color="info" id="search-btn" class="tool-button">
           <mu-icon value="search"></mu-icon>
@@ -66,11 +59,8 @@
           <mu-icon value="timer"></mu-icon>
         </mu-button>
       </div>
-      <div class="body" style="padding-left: 5px; padding-right: 5px">
-=======
+      <!-- <div class="body" style="padding-left: 5px; padding-right: 5px"></div> -->
       <div class="center" v-if="shift === 'task'">
-        <h1>TASKS</h1>
->>>>>>> e2682c040eae061446633d1f5da783ce4d43caba:frontend/src/components/HomePage.vue
         <taskCard v-for="task in tasks" :key="task.name" v-bind="task"></taskCard>
       </div>
 
@@ -103,10 +93,7 @@ export default {
       cookie: getToken(),
       shift: 'task',
       open: false,
-<<<<<<< HEAD:frontend/src/components/HomePage.vue
       showTools: false,
-=======
->>>>>>> e2682c040eae061446633d1f5da783ce4d43caba:frontend/src/components/HomePage.vue
       tasks: [
         {
           name: 'Chen JY',
@@ -182,17 +169,13 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-<<<<<<< HEAD:frontend/src/components/HomePage.vue
-=======
 .margin-top-40{
   margin-top: 40px;
 }
 .center{
-  margin-top: 70px;
-  padding-left: 20px;
-  padding-right: 20px
+  padding-left: 5px;
+  padding-right: 5px
 }
->>>>>>> e2682c040eae061446633d1f5da783ce4d43caba:frontend/src/components/HomePage.vue
 .text {
   position: relative;
   font-size: 14px;
