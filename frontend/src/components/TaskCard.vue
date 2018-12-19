@@ -10,10 +10,6 @@
     <mu-flex class="flex-wrapper" justify-content="start" style="margin-left: 15px">
       <mu-chip v-for="tag in tags" :key="tag.text" :color="tag.color" class="tag">{{tag.text}}</mu-chip>
     </mu-flex>
-    <mu-flex class="flex-wrapper" align-items="center">
-      <mu-flex class="flex-demo-50" justify-content="center">From: {{issuedTime}}</mu-flex>
-      <mu-flex class="flex-demo-50" justify-content="center">To: {{dueTime}}</mu-flex>
-    </mu-flex>
     <div class="text ellipsis" style="margin-left: 10px; margin-right: 10px">
       <mu-card-text class="subtitle">{{subtitle}}</mu-card-text>
       <mu-expand-transition>
