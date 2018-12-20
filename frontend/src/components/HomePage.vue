@@ -28,12 +28,28 @@
               <img src="../assets/head.jpg">
             </mu-avatar>
           </mu-sub-header>
-          <mu-list-item button>
+          <mu-list-item button @click="() => { shift='user'; open=false }">
+            <mu-list-item-action>
+              <mu-icon value="account_box"></mu-icon>
+            </mu-list-item-action>
+            <mu-list-item-title>
+              User
+            </mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button @click="() => { shift='task'; open=false }">
+            <mu-list-item-action>
+              <mu-icon value="storage"></mu-icon>
+            </mu-list-item-action>
+            <mu-list-item-title>
+              Task
+            </mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button @click="() => { shift='setting'; open=false }">
             <mu-list-item-action>
               <mu-icon value="settings"></mu-icon>
             </mu-list-item-action>
             <mu-list-item-title>
-              Settings
+              Setting
             </mu-list-item-title>
           </mu-list-item>
           <mu-divider></mu-divider>
@@ -66,6 +82,12 @@
 
       <div class="center" v-if="shift === 'user'">
         <userInfo></userInfo>
+      </div>
+
+      <div class="center" v-if="shift === 'notification'">
+      </div>
+
+      <div class="center" v-if="shift === 'setting'">
       </div>
 
       <div class="footer" style="position: fixed; z-index: 10; left: 0; right: 0; bottom: 0;">
