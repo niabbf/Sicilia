@@ -14,12 +14,11 @@
         </mu-list-item-sub-title>
       </mu-list-item-content>
       <mu-list-item-action>
-        <mu-badge v-if="status===0" content="not done" color="teal"></mu-badge>
+        <mu-badge v-if="status===0" content="not done" color="red400"></mu-badge>
         <mu-badge v-if="status===1" content="not checked" color="orange"></mu-badge>
         <mu-badge v-if="status===2" content="done" color="info"></mu-badge>
         <mu-icon value="user"></mu-icon>
       </mu-list-item-action>
-
     </mu-list-item>
   </mu-slide-right-transition>
 </template>

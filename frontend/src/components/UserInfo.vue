@@ -1,6 +1,6 @@
 <template>
   <mu-container style="padding:0">
-    <div style="font-size:20px;text-align:left">
+    <div style="font-size:20px;text-align:left;padding: 0 20px">
       <pre><span style="font-weight:bold">User:</span>    niabbf</pre>
       <pre><span style="font-weight:bold">Money:</span>   $1,000,000</pre>
     </div>
