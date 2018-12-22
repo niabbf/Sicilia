@@ -9,9 +9,11 @@ user = Blueprint('user', __name__)
 client = MongoClient('mongodb://localhost:27017/')
 db = client['SICILIA']
 User = db['User']
+Account = db['Account']
 
 
 def add_user(username, password):
+    Account.insert_one({'user': username, 'cash': 100})
     User.insert_one({'username': username, 'password': password})
 
 
