@@ -65,7 +65,7 @@
       </mu-drawer>
 
       <div style="height: 60px">
-        <mu-button fab small color="info" id="add-btn" class="tool-button">
+        <mu-button fab small color="info" id="add-btn" class="tool-button" @click="toAddTask">
           <mu-icon value="add"></mu-icon>
         </mu-button>
         <mu-button fab small color="info" id="search-btn" class="tool-button">
@@ -118,6 +118,7 @@ export default {
       shift: 'task',
       open: false,
       showTools: false,
+
       tasks: null
     }
   },
@@ -152,6 +153,9 @@ export default {
         anime({targets: '#filter-city-btn', translateY: -140})
         anime({targets: '#filter-time-btn', translateY: -80})
       }
+    },
+    toAddTask () {
+      this.$router.push({ path: '/taskadd' })
     }
   }
 }
