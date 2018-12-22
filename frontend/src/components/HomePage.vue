@@ -65,6 +65,9 @@
       </mu-drawer>
 
       <div style="height: 60px">
+        <mu-button fab small color="info" id="add-btn" class="tool-button">
+          <mu-icon value="add"></mu-icon>
+        </mu-button>
         <mu-button fab small color="info" id="search-btn" class="tool-button">
           <mu-icon value="search"></mu-icon>
         </mu-button>
@@ -139,10 +142,12 @@ export default {
     toShowTools () {
       this.showTools = !this.showTools
       if (this.showTools) {
+        anime({targets: '#add-btn', translateY: 260})
         anime({targets: '#search-btn', translateY: 200})
         anime({targets: '#filter-city-btn', translateY: 140})
         anime({targets: '#filter-time-btn', translateY: 80})
       } else {
+        anime({targets: '#add-btn', translateY: -260})
         anime({targets: '#search-btn', translateY: -200})
         anime({targets: '#filter-city-btn', translateY: -140})
         anime({targets: '#filter-time-btn', translateY: -80})
