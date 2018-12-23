@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import HomePage from '@/components/HomePage'
 import SignUp from '@/components/SignUp'
-
+import TaskAdd from '@/components/TaskAdd'
 Vue.use(Router)
 
 export default new Router({
@@ -27,6 +27,15 @@ export default new Router({
       path: '/homepage',
       name: 'HomePage',
       component: HomePage,
+      meta: {
+        // need login to access
+        requireAuth: true
+      }
+    },
+    {
+      path: '/taskadd',
+      name: 'TaskAdd',
+      component: TaskAdd,
       meta: {
         // need login to access
         requireAuth: true

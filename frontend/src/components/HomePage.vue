@@ -28,12 +28,28 @@
               <img src="../assets/head.jpg">
             </mu-avatar>
           </mu-sub-header>
-          <mu-list-item button>
+          <mu-list-item button @click="() => { shift='user'; open=false }">
+            <mu-list-item-action>
+              <mu-icon value="account_box"></mu-icon>
+            </mu-list-item-action>
+            <mu-list-item-title>
+              User
+            </mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button @click="() => { shift='task'; open=false }">
+            <mu-list-item-action>
+              <mu-icon value="storage"></mu-icon>
+            </mu-list-item-action>
+            <mu-list-item-title>
+              Task
+            </mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button @click="() => { shift='setting'; open=false }">
             <mu-list-item-action>
               <mu-icon value="settings"></mu-icon>
             </mu-list-item-action>
             <mu-list-item-title>
-              Settings
+              Setting
             </mu-list-item-title>
           </mu-list-item>
           <mu-divider></mu-divider>
@@ -49,6 +65,9 @@
       </mu-drawer>
 
       <div style="height: 60px">
+        <mu-button fab small color="info" id="add-btn" class="tool-button" @click="toAddTask">
+          <mu-icon value="add"></mu-icon>
+        </mu-button>
         <mu-button fab small color="info" id="search-btn" class="tool-button">
           <mu-icon value="search"></mu-icon>
         </mu-button>
@@ -61,17 +80,22 @@
       </div>
       <!-- <div class="body" style="padding-left: 5px; padding-right: 5px"></div> -->
       <div class="center" v-if="shift === 'task'">
-        <taskCard v-for="task in tasks" :key="task.name" v-bind="task"></taskCard>
+        <taskCard v-for="task in tasks" v-if="task.status===0" :key="task.name" v-bind="task"></taskCard>
       </div>
 
       <div class="center" v-if="shift === 'user'">
-        <h1>User Information</h1>
-        <!-- <userInfo></userInfo> -->
+        <userInfo></userInfo>
+      </div>
+
+      <div class="center" v-if="shift === 'notification'">
+      </div>
+
+      <div class="center" v-if="shift === 'setting'">
       </div>
 
       <div class="footer" style="position: fixed; z-index: 10; left: 0; right: 0; bottom: 0;">
         <mu-bottom-nav :value.sync="shift" shift>
-          <mu-bottom-nav-item value="user" title="User" icon="favorite"></mu-bottom-nav-item>
+          <mu-bottom-nav-item value="user" title="User" icon="account_box"></mu-bottom-nav-item>
           <mu-bottom-nav-item value="task" title="Task" icon="storage"></mu-bottom-nav-item>
           <mu-bottom-nav-item title="Notification" icon="bookmark"></mu-bottom-nav-item>
           <mu-bottom-nav-item title="Setting" icon="settings"></mu-bottom-nav-item>
@@ -82,7 +106,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import { getToken } from '@/auth'
 import anime from 'animejs'
 
@@ -94,49 +118,19 @@ export default {
       shift: 'task',
       open: false,
       showTools: false,
-      tasks: [
-        {
-          name: 'Chen JY',
-          adr: 'Fudan University',
-          start: '2018-12-01',
-          end: '2019-01-01',
-          tags: [
-            {
-              text: 'find dog',
-              color: 'success'
-            },
-            {
-              text: 'Shanghai',
-              color: 'info'
-            }
-          ],
-          subtitle: '急！家中爱犬走失',
-          info: '我于今日晚上六点十分左右在广州市天河区五山路，华晟大厦对面的天桥底与我家泰迪发发走丢了，它是公狗，没有穿衣服，毛发比较长，颜色均匀，走路的时候喜欢歪着走，体型不大，大概六斤左右，脖子上挂些绳圈但没有系绳子，希望有捡到或者看到过的朋友联系我一下，有酬谢！丢了爱犬很着急，多谢大家了，qq同微信号:309094783'
-        },
-        {
-          name: 'WZY',
-          adr: 'Fudan University',
-          start: '2018-12-01',
-          end: '2018-12-20',
-          tags: [
-            {
-              text: 'find one girlfriend',
-              color: 'success'
-            },
-            {
-              text: 'Shanghai',
-              color: 'info'
-            }
-          ],
-          subtitle: '寻找真爱',
-          info: 'lnkncLNlkNzlkn'
-        }
-      ]
+
+      tasks: null
     }
+  },
+  mounted: function () {
+    this.tasks = this.getTasks
   },
   computed: {
     ...mapState('user', [
       'name', 'password'
+    ]),
+    ...mapGetters('user', [
+      'getTasks'
     ])
   },
   methods: {
@@ -149,14 +143,19 @@ export default {
     toShowTools () {
       this.showTools = !this.showTools
       if (this.showTools) {
+        anime({targets: '#add-btn', translateY: 260})
         anime({targets: '#search-btn', translateY: 200})
         anime({targets: '#filter-city-btn', translateY: 140})
         anime({targets: '#filter-time-btn', translateY: 80})
       } else {
+        anime({targets: '#add-btn', translateY: -260})
         anime({targets: '#search-btn', translateY: -200})
         anime({targets: '#filter-city-btn', translateY: -140})
         anime({targets: '#filter-time-btn', translateY: -80})
       }
+    },
+    toAddTask () {
+      this.$router.push({ path: '/taskadd' })
     }
   }
 }
@@ -174,7 +173,8 @@ export default {
 }
 .center{
   padding-left: 5px;
-  padding-right: 5px
+  padding-right: 5px;
+  margin-bottom: 60px;
 }
 .text {
   position: relative;
