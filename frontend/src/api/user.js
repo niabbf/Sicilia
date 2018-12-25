@@ -28,7 +28,7 @@ export default {
           cbFail(msg)
         }
       })
-      .catch(() => {
+      .catch((response) => {
         cbFail('Can\'t access server')
       })
   },

@@ -3,4 +3,4 @@ frontend/platforms/
 frontend/www/
 .vscode
 __pycache__
-.DS_Store
+*/.DS_Store
