@@ -63,6 +63,15 @@ def get_tasks():
     post_data = request.form.to_dict()
     query_params = convert_post_data_to_query(post_data)
     query_params['status'] = 0
+
+    begin = -1
+    length = -1
+    if 'begin' in query_params:
+        begin = int(query_params['begin'])
+        length = int(query_params['length'])
+        query_params.pop('begin')
+        query_params.pop('length')
+
     ret = []
     for task in Task.find(query_params):
         if 'location' in query_params:
@@ -73,9 +82,7 @@ def get_tasks():
         ret.append(task)
 
     ret = task_sort(0,len(ret),ret)
-    if 'begin' in query_params and 'length' in query_params:
-        begin = int(query_params['begin'])
-        length = int(query_params['length'])
+    if begin!=-1:
         return json.dumps(ret[begin:begin+length]),200
 
     return json.dumps(ret), 200
