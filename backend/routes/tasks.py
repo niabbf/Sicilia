@@ -65,7 +65,7 @@ def get_tasks():
 def publish_task():
     post_data = request.form.to_dict()
     user = request.headers.get('user')
-    task = {}
+    task = post_data
     task['task_sponser'] = user
     task['deadline'] = convert_date(post_data.get('deadline', '2100/01/01'))
     task['description'] = post_data.get('description', 'no description')
