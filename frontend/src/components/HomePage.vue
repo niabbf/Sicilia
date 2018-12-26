@@ -71,16 +71,22 @@
         <mu-button fab small color="info" id="search-btn" class="tool-button">
           <mu-icon value="search"></mu-icon>
         </mu-button>
-        <mu-button fab small color="success" id="filter-city-btn" class="tool-button">
+        <mu-button fab small color="success" id="filter-city-btn" class="tool-button" @click="showLocatedTasks">
           <mu-icon value="location_on"></mu-icon>
         </mu-button>
-        <mu-button fab small color="pink" id="filter-time-btn" class="tool-button">
+        <mu-button fab small color="pink" id="filter-time-btn" class="tool-button" @click="showDeadlineTasks">
           <mu-icon value="timer"></mu-icon>
         </mu-button>
       </div>
       <!-- <div class="body" style="padding-left: 5px; padding-right: 5px"></div> -->
       <div class="center" v-if="shift === 'task'">
-        <taskCard v-for="task in tasks" v-if="task.status===0" :key="task.name" v-bind="task"></taskCard>
+        <mu-dialog title="Info" width="360" :open.sync="showDialog">
+          {{dialogText}}
+          <mu-button slot="actions" flat color="primary" @click="showDialog=false">Close</mu-button>
+        </mu-dialog>
+        <mu-load-more @refresh="refreshTasks" :refreshing="refreshing" :loading="loading" @load="showMore">
+          <taskCard v-for="task in tasks" v-if="task.status===0" :key="task.name" v-bind="task"></taskCard>
+        </mu-load-more>
       </div>
 
       <div class="center" v-if="shift === 'user'">
@@ -118,16 +124,32 @@ export default {
       shift: 'task',
       open: false,
       showTools: false,
-
-      tasks: null
+      showMode: 'deadline',
+      tasks: [],
+      showDialog: false,
+      dialogText: '',
+      refreshing: false,
+      loading: false
     }
   },
   mounted: function () {
-    this.tasks = this.getTasks
+    const that = this
+    const cb = function (msg) {
+      if (msg === 'success') {
+        that.tasks = that.publicDeadlineTasks
+      } else {
+        console.log(msg)
+      }
+    }
+    this.resetTasks(10, cb)
+    this.resetTasks(10, () => {}, 'shanghai')
   },
   computed: {
     ...mapState('user', [
       'name', 'password'
+    ]),
+    ...mapState('pub', [
+      'publicLocatedTasks', 'publicDeadlineTasks'
     ]),
     ...mapGetters('user', [
       'getTasks'
@@ -137,6 +159,25 @@ export default {
     ...mapActions('user', [
       'logOut'
     ]),
+    ...mapActions('pub', [
+      'getPublicTasks', 'resetPublicTasks'
+    ]),
+    resetTasks (length, callback, location) {
+      if (location !== undefined) {
+        this.resetPublicTasks({
+          begin: 0,
+          length: length,
+          location: location,
+          callback: callback
+        })
+      } else {
+        this.resetPublicTasks({
+          begin: 0,
+          length: length,
+          callback: callback
+        })
+      }
+    },
     toLogin () {
       this.$router.push({ path: '/' })
     },
@@ -156,6 +197,75 @@ export default {
     },
     toAddTask () {
       this.$router.push({ path: '/taskadd' })
+    },
+    showLocatedTasks () {
+      if (this.showMode !== 'located') {
+        this.tasks = this.publicLocatedTasks
+        this.showMode = 'located'
+      }
+      this.toShowTools()
+    },
+    showDeadlineTasks () {
+      if (this.showMode !== 'deadline') {
+        this.tasks = this.publicDeadlineTasks
+        this.showMode = 'deadline'
+      }
+      this.toShowTools()
+    },
+    showMore () {
+      this.loading = true
+      const that = this
+      const cb = function (msg) {
+        that.loading = false
+        if (msg !== 'success') {
+          that.dialogText = 'Show more failed'
+          that.showDialog = true
+        } else {
+          if (that.showMode === 'located') {
+            that.tasks = that.publicLocatedTasks
+          } else if (that.showMode === 'deadline') {
+            console.log(that.publicDeadlineTasks)
+            that.tasks = that.publicDeadlineTasks
+          }
+        }
+      }
+      if (that.showMode !== 'located') {
+        that.getPublicTasks({
+          begin: that.tasks.length,
+          length: 10,
+          callback: cb
+        })
+      } else {
+        that.getPublicTasks({
+          begin: that.tasks.length,
+          length: 10,
+          location: 'shanghai',
+          callback: cb
+        })
+      }
+    },
+    refreshTasks () {
+      this.refreshing = true
+      const that = this
+      const cb = function (msg) {
+        that.refreshing = false
+        if (msg !== 'success') {
+          that.dialogText = 'Refresh failed'
+          that.showDialog = true
+        } else {
+          if (that.showMode === 'located') {
+            that.tasks = that.publicLocatedTasks
+          } else if (that.showMode === 'deadline') {
+            console.log(that.publicDeadlineTasks)
+            that.tasks = that.publicDeadlineTasks
+          }
+        }
+      }
+      if (this.showMode === 'located') {
+        this.resetTasks(10, cb, 'shanghai')
+      } else if (this.showMode === 'deadline') {
+        this.resetTasks(10, cb)
+      }
     }
   }
 }
@@ -196,7 +306,7 @@ export default {
   margin-right: 5px;
 }
 .tool-button {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 12px;
   z-index: 5;

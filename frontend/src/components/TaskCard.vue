@@ -1,7 +1,7 @@
 <template>
   <mu-card v-bind:class="cardClass" @click="changeView">
     <mu-flex class="flex-wrapper" justify-content="start">
-      <mu-card-header :title="name" :sub-title="adr">
+      <mu-card-header :title="user" :sub-title="location">
         <mu-avatar slot="avatar">
           <img src="../assets/head.jpg">
         </mu-avatar>
@@ -17,10 +17,15 @@
           <mu-card-text class="detail">{{info}}</mu-card-text>
           <mu-card-actions class="card-action">
             <mu-flex class="flex-wrapper" align-items="center">
-              <mu-flex justify-content="center" fill>
-                <mu-card-text class="time-start">{{start}}</mu-card-text>
-                <mu-card-text class="time-connector">~</mu-card-text>
-                <mu-card-text class="time-end">{{end}}</mu-card-text>
+              <mu-flex justify-content="start" fill>
+                <mu-card-text class="time-symbol" align-content="center">
+                  <mu-icon size="20" value="attach_money" color="orange"></mu-icon>
+                </mu-card-text>
+                <mu-card-text class="time" style="padding-left: 0">{{task_sponser}}</mu-card-text>
+                <mu-card-text class="time-symbol" align-content="center">
+                  <mu-icon size="20" value="access_time" color="indigo"></mu-icon>
+                </mu-card-text>
+                <mu-card-text class="time" style="padding-left: 0">{{deadline}}</mu-card-text>
               </mu-flex>
               <mu-flex justify-content="center" fill>
                 <mu-button color="info" small round style="font-family: Microsoft Yahei" @click="takeTask" v-bind:disabled="disabled">
@@ -39,10 +44,10 @@
 export default {
   name: 'TaskCard',
   props: {
-    name: String,
-    adr: String,
-    start: String,
-    end: String,
+    user: String,
+    location: String,
+    task_sponser: String,
+    deadline: String,
     tags: Array,
     subtitle: String,
     info: String
@@ -75,24 +80,16 @@ export default {
   margin: 0 auto;
   margin-top: 10px;
 }
-.time-start {
+.time-symbol {
   font-family: Microsoft Yahei;
-  font-size: 13px;
   color: black;
-  padding-right: 3px;
-}
-.time-connector {
-  font-family: Microsoft Yahei;
-  font-size: 13px;
-  color: black;
-  padding-left: 0;
   padding-right: 0;
+  padding-left: 0;
 }
-.time-end {
+.time {
   font-family: Microsoft Yahei;
   font-size: 13px;
-  color: red;
-  padding-left: 3px;
+  color: black;
 }
 .text {
   position: relative;
