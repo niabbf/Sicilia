@@ -15,7 +15,7 @@ def convert_date(value):
     return value
 
 def convert_post_data_to_query(post_data):
-    return {}
+    return post_data
 
 
 @tasks.route('/own_tasks', methods=['POST'])
