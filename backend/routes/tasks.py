@@ -3,6 +3,7 @@ from common.auth import auth
 from pymongo import MongoClient
 import uuid
 import json
+import time
 
 tasks = Blueprint('tasks', __name__)
 client = MongoClient('mongodb://localhost:27017/')
@@ -73,7 +74,11 @@ def get_tasks():
         query_params.pop('length')
 
     ret = []
+    today = time.strftime('%Y.%m.%d', time.localtime(time.time())).replace('.', '/')
     for task in Task.find(query_params):
+
+        if Task['deadline'] < today:
+            continue
         if 'location' in query_params:
             if query_params['location'] != task['location']:
                 continue
