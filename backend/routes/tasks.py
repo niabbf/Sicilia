@@ -16,19 +16,16 @@ def convert_date(value):
 
 def convert_post_data_to_query(post_data):
     return post_data
-    
-    
-@tasks.route('/testtasks', methods=['POST'])
-@auth
-def get_tasks():
-    post_data = request.form.to_dict()
-    query_params = convert_post_data_to_query(post_data)
-    query_params['status'] = 0
-    ret = []
-    for task in Task.find(query_params):
-        task.pop('_id')
-        ret.append(task)
-    return json.dumps(ret), 200
+
+def task_sort(begin,length,lis):
+    # sort
+    for i in range(len(lis)):
+        for j in range(len(lis)):
+            if lis[i]['deadline'] < lis[j]['deadline']:
+                temp = lis[i]['deadline']
+                lis[i]['deadline'] = lis[j]['deadline']
+                lis[j]['deadline'] = temp
+    return lis[begin:begin+length]
 
 
 @tasks.route('/own_tasks', methods=['POST'])
@@ -68,13 +65,19 @@ def get_tasks():
     query_params['status'] = 0
     ret = []
     for task in Task.find(query_params):
-    
         if 'location' in query_params:
-            if task['location'] != query_params['location']
-            continue
-    
+            if query_params['location'] != task['location']:
+                continue
+
         task.pop('_id')
         ret.append(task)
+
+    ret = task_sort(0,len(ret),ret)
+    if 'begin' in query_params and 'length' in query_params:
+        begin = int(query_params['begin'])
+        length = int(query_params['length'])
+        return json.dumps(ret[begin:begin+length]),200
+
     return json.dumps(ret), 200
 
 
