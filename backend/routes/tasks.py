@@ -74,10 +74,10 @@ def get_tasks():
         query_params.pop('length')
 
     ret = []
-    today = time.strftime('%Y.%m.%d', time.localtime(time.time())).replace('.', '/')
+    today = time.strftime('%Y.%m.%d', time.localtime(time.time())).replace('.', '-')
     for task in Task.find(query_params):
 
-        if Task['deadline'] < today:
+        if task['deadline'] < today:
             continue
         if 'location' in query_params:
             if query_params['location'] != task['location']:
