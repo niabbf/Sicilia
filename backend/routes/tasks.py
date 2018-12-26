@@ -16,6 +16,7 @@ def convert_date(value):
 
 def convert_post_data_to_query(post_data):
     return post_data
+    # return {}
 
 
 @tasks.route('/own_tasks', methods=['POST'])
@@ -48,13 +49,16 @@ def get_executing_tasks():
 
 
 @tasks.route('/tasks', methods=['POST'])
-@auth
+# @auth
 def get_tasks():
     post_data = request.form.to_dict()
     query_params = convert_post_data_to_query(post_data)
     query_params['status'] = 0
     ret = []
     for task in Task.find(query_params):
+        if 'location' in query_params:
+            if query_params['location'] != task['location']:
+                continue
         task.pop('_id')
         ret.append(task)
     return json.dumps(ret), 200
