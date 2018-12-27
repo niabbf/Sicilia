@@ -7,25 +7,21 @@ import json
 ifiles = Blueprint('ifiles', __name__)
 client = MongoClient('mongodb://localhost:27017/')
 db = client['SICILIA']
-Image = db['Image']
+Account = db['Account']
 
 
 @ifiles.route('/upload_image', methods=['POST'])
 @auth
 def upload_file():
     post_data = request.form.to_dict()
-    image_id = str(uuid.uuid4())
-    image = post_data
-    image['image_id'] = image_id
-    Image.insert_one(image)
-    return image_id
+    user = request.headers.get('user')
+    Account.update_one({'user': user}, {'$set': {'touxiang': post_data}})
+    return 'success'
 
 
-@ifiles.route('/download_image', methods=['POST'])
+@ifiles.route('/download_image', methods=['GET'])
 @auth
 def download_file():
-    post_data = request.form.to_dict()
-    image_id = post_data.get('image_id', '')
-    image = Image.find_one({'image_id': image_id})
-    image.pop('_id')
-    return json.dumps(image), 200
+    user = request.headers.get('user')
+    account = Account.find_one({'user': user})
+    return json.dumps(account.get('touxiang', {})), 200
