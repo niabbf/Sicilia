@@ -17,6 +17,12 @@ def add_touxiang(data):
     account = Account.find_one({'user': user})
     if account is not None:
         data['touxiang'] = account.get('touxiang', {})
+    if data.get('task_id') is None:
+        task_id = str(uuid.uuid4())
+        Task.update_one({'_id': data['_id']}, {'$set': {'task_id': task_id}})
+        data['index'] = task_id
+    else:
+        data[index] = data.get('task_id')
 
 def convert_date(value):
     return value
@@ -44,8 +50,8 @@ def get_own_tasks():
     query_params['task_sponser'] = user
     ret = []
     for task in Task.find(query_params):
-        task.pop('_id')
         add_touxiang(task)
+        task.pop('_id')
         ret.append(task)
     return json.dumps(ret)
 
@@ -60,8 +66,8 @@ def get_executing_tasks():
     query_params['status'] = 1
     ret = []
     for task in Task.find(query_params):
-        task.pop('_id')
         add_touxiang(task)
+        task.pop('_id')
         ret.append(task)
     return json.dumps(ret)
 
@@ -91,8 +97,8 @@ def get_tasks():
             if query_params['location'] != task['location']:
                 continue
 
-        task.pop('_id')
         add_touxiang(task)
+        task.pop('_id')
         ret.append(task)
 
     ret = task_sort(0,len(ret),ret)
