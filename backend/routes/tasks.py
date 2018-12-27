@@ -103,7 +103,7 @@ def get_tasks():
 
 
 @tasks.route('/publish_task', methods=['POST'])
-@auth
+#@auth
 def publish_task():
     post_data = request.form.to_dict()
     user = request.headers.get('user')
@@ -127,7 +127,7 @@ def publish_task():
 
 
 @tasks.route('/confirm_task/<task_id>', methods=['GET'])
-@auth
+#@auth
 def confirm_task(task_id):
     user = request.headers.get('user')
     task = Task.find_one({'task_id': task_id})
@@ -150,7 +150,7 @@ def confirm_task(task_id):
 
 
 @tasks.route('/start_task/<task_id>', methods=['GET'])
-@auth
+#@auth
 def start_task(task_id):
     user = request.headers.get('user')
     task = Task.find_one({'task_id': task_id})

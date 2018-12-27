@@ -19,7 +19,7 @@ def upload_file():
     return 'success'
 
 
-@ifiles.route('/download_image', methods=['POST'])
+@ifiles.route('/download_image', methods=['GET'])
 @auth
 def download_file():
     user = request.headers.get('user')
