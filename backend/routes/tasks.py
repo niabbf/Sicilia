@@ -22,7 +22,7 @@ def add_touxiang(data):
         Task.update_one({'_id': data['_id']}, {'$set': {'task_id': task_id}})
         data['index'] = task_id
     else:
-        data[index] = data.get('task_id')
+        data['index'] = data.get('task_id')
 
 def convert_date(value):
     return value
