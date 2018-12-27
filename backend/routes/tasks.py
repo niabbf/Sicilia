@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from common.auth import auth
+from common.utils import save_image
 from pymongo import MongoClient
 import uuid
 import json
@@ -34,7 +35,7 @@ def task_sort(begin,length,lis):
 def get_own_tasks():
     post_data = request.form.to_dict()
     query_params = convert_post_data_to_query(post_data)
-    user = request.headers.get('user')
+    user = request.cookies.get('user')
     query_params['task_sponser'] = user
     ret = []
     for task in Task.find(query_params):
@@ -48,7 +49,7 @@ def get_own_tasks():
 def get_executing_tasks():
     post_data = request.form.to_dict()
     query_params = convert_post_data_to_query(post_data)
-    user = request.headers.get('user')
+    user = request.cookies.get('user')
     query_params['task_executor'] = user
     query_params['status'] = 1
     ret = []
@@ -76,7 +77,6 @@ def get_tasks():
     ret = []
     today = time.strftime('%Y.%m.%d', time.localtime(time.time())).replace('.', '-')
     for task in Task.find(query_params):
-
         if task['deadline'] < today:
             continue
         if 'location' in query_params:
@@ -97,15 +97,24 @@ def get_tasks():
 @auth
 def publish_task():
     post_data = request.form.to_dict()
-    user = request.headers.get('user')
+    user = request.cookies.get('user')
     task = post_data
     task['task_sponser'] = user
-    task['deadline'] = convert_date(post_data.get('deadline', '2100/01/01'))
+    images=request.files.getlist("images[]")
+    img_info={}
+    for image in images:   
+        image_id,image_ext=save_image(image)
+        if image_ext not in img_info:
+            img_info[image_ext]=[]
+        img_info[image_ext].append(image_id)
+    task['images']=img_info
+    task['deadline'] = convert_date(post_data.get('deadline', '2100-01-01'))
     task['description'] = post_data.get('description', 'no description')
     task['location'] = post_data.get('location', 'shanghai')
     reward = int(post_data.get('reward', 0))
     task_id = str(uuid.uuid4())
     task['status'] = 0
+    task['images'] = img_info
     task['task_id'] = task_id
     task['task_executor'] = None
     user_info = Account.find_one({'user': user})
@@ -120,7 +129,7 @@ def publish_task():
 @tasks.route('/confirm_task/<task_id>', methods=['GET'])
 @auth
 def confirm_task(task_id):
-    user = request.headers.get('user')
+    user = request.cookies.get('user')
     task = Task.find_one({'task_id': task_id})
     if task is None:
         return 'task do not exist', 400
@@ -143,7 +152,7 @@ def confirm_task(task_id):
 @tasks.route('/start_task/<task_id>', methods=['GET'])
 @auth
 def start_task(task_id):
-    user = request.headers.get('user')
+    user = request.cookies.get('user')
     task = Task.find_one({'task_id': task_id})
     if task is None:
         return 'task do not exist', 400

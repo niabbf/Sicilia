@@ -23,10 +23,13 @@
         </mu-form-item>
         <mu-row>
         <mu-form-item prop="timeexpired" icon="today" >
-           <mu-date-input  v-model="validateForm.timeexpired" label-float full-width no-display></mu-date-input>
+           <mu-date-input  v-model="validateForm.timeexpired" value-format="YYYY-MM-DD" label-float full-width no-display></mu-date-input>
         </mu-form-item>
         <mu-form-item prop="money" icon="attach_money">
            <mu-text-field v-model="validateForm.money" ></mu-text-field>
+        </mu-form-item>
+              <mu-form-item prop="location" icon="map">
+           <mu-text-field v-model="validateForm.location" ></mu-text-field>
         </mu-form-item>
         </mu-row>
          <mu-form-item prop="tags" icon="notes">
@@ -58,7 +61,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import {upload} from '@/api/upload'
+import {publishTask} from '@/api/task'
 export default {
   name: 'TaskAdd',
   props: {
@@ -96,10 +99,20 @@ export default {
     toHomePage: function () {
       this.$router.push({ path: '/homepage' })
     },
+    postTask (status, body = '发布失败，请检查网络设置') {
+      if (status === true) {
+        this.$router.push({ path: '/homepage' })
+      } else {
+        this.dialogText = body
+        this.showDialog = true
+      }
+    },
+
     toAdd: function () {
       this.$refs.form.validate().then((result) => {
         if (result === true) {
-          this.put({taskname: this.validateForm.taskname, dscrpt: this.validateForm.taskdscrpt, tgs: this.validateForm.tags, t: this.validateForm.timeexpired, m: this.validateForm.money})
+          console.log(this.validateForm.timeexpired)
+          publishTask({subtitle: this.validateForm.taskname, description: this.validateForm.taskdscrpt, tags: this.validateForm.tags, deadline: this.validateForm.timeexpired, reward: this.validateForm.money, fileList: this.filesArr, location: this.validateForm.location, callBack: this.postTask})
         }
       })
     },
@@ -141,28 +154,10 @@ export default {
         }
         reader.readAsDataURL(file)
       }
-    },
-    put (taskname, dscrpt, tgs, t, m) {
-      let param = new FormData()
-      param.append('taskname', taskname)
-      param.append('tags', tgs)
-      param.append('description', dscrpt)
-      param.append('username', this.name)
-      param.append('time', t)
-      param.append('money', m)
-      this.filesArr.forEach((file) => {
-        param.append('image_file', file)
-      })
-      console.log(param)
-      upload(param).then(function (result) {
-        console.log(result.data)
-        this.$router.push({ path: '/homepage' })
-      })
     }
   }
 }
 </script>
-
 <style scoped>
 .xy-center{
   position: absolute;

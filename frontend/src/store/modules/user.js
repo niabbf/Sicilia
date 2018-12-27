@@ -1,5 +1,5 @@
 import apiUser from '../../api/user'
-import { setToken, removeToken } from '@/auth'
+import { setToken, setUser, removeToken } from '@/auth'
 // initial state
 const state = {
   name: null,
@@ -228,6 +228,7 @@ const actions = {
         commit('setName', payload.name)
         commit('setPassword', payload.pwd)
         setToken(cookie)
+        setUser(payload.name)
         payload.callback('success')
       },
       (str) => {

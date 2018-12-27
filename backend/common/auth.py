@@ -6,8 +6,8 @@ from functools import wraps
 def auth(handler):
     @wraps(handler)
     def wrapper(*args, **kwargs):
-        token = request.headers.get('token')
-        user = request.headers.get('user')
+        token = request.cookies.get('token')
+        user = request.cookies.get('user')
         if token is None:
             return 'token not found', 401
         redis = get_redis()

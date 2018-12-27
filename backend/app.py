@@ -18,7 +18,6 @@ CORS(app, supports_credentials=True, resources=r'/*')
 
 @app.after_request
 def af_request(resp):
-    resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
     resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
     return resp

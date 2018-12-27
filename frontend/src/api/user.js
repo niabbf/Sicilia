@@ -1,4 +1,4 @@
-const SERVER_ADR = 'http://39.108.208.217'
+const SERVER_ADR = 'http://localhost:80'
 
 export default {
   login (cbSucceed, cbFail, name, pwd) {

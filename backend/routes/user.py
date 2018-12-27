@@ -31,7 +31,7 @@ def user_login():
     else:
         redis = get_redis()
         token = str(uuid.uuid4())
-        redis.set(token, name, ex=3600)
+        redis.set(token, name, ex=3600*24)
         return token, 200
 
 
