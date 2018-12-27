@@ -12,6 +12,12 @@ Task = db['Tasks']
 Account = db['Account']
 
 
+def add_touxiang(data):
+    user = data['task_sponser']
+    account = Account.find_one({'user': user})
+    if account is not None:
+        data['touxiang'] = account.get('touxiang', {})
+
 def convert_date(value):
     return value
 
@@ -39,6 +45,7 @@ def get_own_tasks():
     ret = []
     for task in Task.find(query_params):
         task.pop('_id')
+        add_touxiang(task)
         ret.append(task)
     return json.dumps(ret)
 
@@ -54,6 +61,7 @@ def get_executing_tasks():
     ret = []
     for task in Task.find(query_params):
         task.pop('_id')
+        add_touxiang(task)
         ret.append(task)
     return json.dumps(ret)
 
@@ -84,6 +92,7 @@ def get_tasks():
                 continue
 
         task.pop('_id')
+        add_touxiang(task)
         ret.append(task)
 
     ret = task_sort(0,len(ret),ret)
