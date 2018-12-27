@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from common.auth import auth
 from pymongo import MongoClient
+import uuid
 import json
 
 ifiles = Blueprint('ifiles', __name__)
@@ -26,4 +27,5 @@ def download_file():
     post_data = request.form.to_dict()
     image_id = post_data.get('image_id', '')
     image = Image.find_one({'image_id': image_id})
+    image.pop('_id')
     return json.dumps(image), 200
