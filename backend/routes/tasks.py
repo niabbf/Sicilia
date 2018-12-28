@@ -36,9 +36,9 @@ def task_sort(begin,length,lis):
     for i in range(len(lis)):
         for j in range(len(lis)):
             if lis[i]['deadline'] < lis[j]['deadline']:
-                temp = lis[i]['deadline']
-                lis[i]['deadline'] = lis[j]['deadline']
-                lis[j]['deadline'] = temp
+                temp = lis[i]
+                lis[i] = lis[j]
+                lis[j] = temp
     return lis[begin:begin+length]
 
 
